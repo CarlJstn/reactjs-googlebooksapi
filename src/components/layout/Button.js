@@ -10,7 +10,10 @@ class Button extends Component {
           className="nextBtn"
           type="button"
           onClick={this.props.onNext}
-          style={{ float: "right", cursor: "pointer" }}
+          style={{
+            float: "right",
+            cursor: this.props.disbaleNext ? "not-allowed" : "pointer"
+          }}
           disabled={this.props.disbaleNext}
         >
           Next
@@ -19,7 +22,10 @@ class Button extends Component {
           className="prevBtn"
           type="button"
           onClick={this.props.onPrevious}
-          style={{ float: "right", cursor: "pointer" }}
+          style={{
+            float: "right",
+            cursor: this.props.disablePrev ? "not-allowed" : "pointer"
+          }}
           disabled={this.props.disablePrev}
         >
           Previous

@@ -7,7 +7,8 @@ import "./Main.css";
 
 class Navbar extends Component {
   state = {
-    searchText: "Harry Potter",
+    searchText: "",
+    searchquery: "Harry Potter",
     resultIndex: 0,
     result: null
   };
@@ -16,7 +17,7 @@ class Navbar extends Component {
   componentWillMount() {
     fetch(
       `https://www.googleapis.com/books/v1/volumes?q=${
-        this.state.searchText
+        this.state.searchquery
       }&startIndex=${this.state.resultIndex}&maxResults=40`
     )
       .then(response => response.json())
@@ -36,16 +37,21 @@ class Navbar extends Component {
     if (this.state.searchText === "") {
       alert("Please type something.");
     } else {
-      this.setState({ result: null });
-      fetch(
-        `https://www.googleapis.com/books/v1/volumes?q=${
-          this.state.searchText
-        }&startIndex=${this.state.resultIndex}&maxResults=40`
-      )
-        .then(response => response.json())
-        .then(resData => {
-          this.setState({ result: resData, resultIndex: 0 });
-        });
+      this.setState(
+        { result: null, searchquery: this.state.searchText },
+        // Callback function so it will change the state first before fetching again.
+        () => {
+          fetch(
+            `https://www.googleapis.com/books/v1/volumes?q=${
+              this.state.searchquery
+            }&startIndex=${this.state.resultIndex}&maxResults=40`
+          )
+            .then(response => response.json())
+            .then(resData => {
+              this.setState({ result: resData, resultIndex: 0 });
+            });
+        }
+      );
     }
   };
 
@@ -59,7 +65,7 @@ class Navbar extends Component {
       this.setState({ resultIndex: index, result: null }, () =>
         fetch(
           `https://www.googleapis.com/books/v1/volumes?q=${
-            this.state.searchText
+            this.state.searchquery
           }&startIndex=${this.state.resultIndex}&maxResults=40`
         )
           .then(response => response.json())
@@ -80,7 +86,7 @@ class Navbar extends Component {
     this.setState({ resultIndex: index, result: null }, () =>
       fetch(
         `https://www.googleapis.com/books/v1/volumes?q=${
-          this.state.searchText
+          this.state.searchquery
         }&startIndex=${this.state.resultIndex}&maxResults=40`
       )
         .then(response => response.json())
