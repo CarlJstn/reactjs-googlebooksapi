@@ -37,8 +37,11 @@ class Navbar extends Component {
     if (this.state.searchText === "") {
       alert("Please type something.");
     } else {
+      // Set result to null, because new data will be coming from fecth.
+      // Set searchquery to the text from search bar.
+      // Set the index of the results because it is a new set of data.
       this.setState(
-        { result: null, searchquery: this.state.searchText },
+        { result: null, searchquery: this.state.searchText, resultIndex: 0 },
         // Callback function so it will change the state first before fetching again.
         () => {
           fetch(
